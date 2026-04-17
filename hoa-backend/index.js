@@ -40,7 +40,7 @@ app.post("/api/upload-rules", upload.single("rules"), async (req, res) => {
   console.log("req.body:", req.body);
   try {
     if (!req.file) {
-      return res.status(400).json({ error: "No rules file uploaded" });
+      return res.status(400).json({ error: "No file uploaded" });
     }
 
     if (req.file.mimetype === "application/pdf") {
@@ -137,4 +137,9 @@ app.post("/api/analyze-openai", upload.single("image"), async (req, res) => {
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
+});
+
+app.post("/api/upload-rules", upload.single("rules"), (req, res) => {
+  console.log("fieldname:", req.file?.fieldname);  // Should log "rules"
+  console.log("filename:", req.file?.originalname);
 });
