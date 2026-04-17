@@ -9,7 +9,15 @@ const openai = new OpenAI({
 });
 
 const app = express();
-app.use(cors({ origin: "http://localhost:3000" }));
+const allowedOrigins = [
+  "http://localhost:3000",
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
+app.use(cors({ 
+  origin: allowedOrigins,
+  credentials: true
+}));
 
 const upload = multer({ storage: multer.memoryStorage() });
 const visionClient = new vision.ImageAnnotatorClient();
@@ -127,6 +135,7 @@ app.post("/api/analyze-openai", upload.single("image"), async (req, res) => {
   }
 });
 
-app.listen(4000, () => {
-  console.log("Server listening on http://localhost:4000");
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
