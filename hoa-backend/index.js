@@ -11,7 +11,7 @@ const openai = new OpenAI({
 const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
-  process.env.FRONTEND_URL
+  process.env.hoa-app-pied.vercel.app
 ].filter(Boolean);
 
 app.use(cors({ 
