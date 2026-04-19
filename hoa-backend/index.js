@@ -26,7 +26,7 @@ app.use(
 const upload = multer({ storage: multer.memoryStorage() });
 const visionClient = new vision.ImageAnnotatorClient();
 
-let rulesText = "";
+//let rulesText = "";
 
 app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError && err.code === "LIMIT_UNEXPECTED_FILE") {
@@ -96,17 +96,19 @@ Follow these rules:
 - Compare the provided HOA rules against the uploaded image.
 - In separate paragraphs, return a concise response with a compliance score from 0-100, a list of likely violations, and reasoning for the compliancy score.
 - Add very short reasoning for each criteria given in the HOA rules document.
-- If there are requirements that cannot be verified from the image, note them all in one paragraph as "unverifiable criteria".
+- If there are requirements that cannot be verified from the image, note them all in one final paragraph as "unverifiable criteria".
 - Separate each criterion with newlines.
 - Do not use markdown, just plain text.
 `;
 
 app.post("/api/analyze-openai", upload.single("image"), async (req, res) => {
   try {
+    const rulesText = req.body.rulesText;
+
     if (!req.file) {
       return res.status(400).json({ error: "No image uploaded..." });
     }
-
+    
     if (!rulesText) {
       return res.status(400).json({ error: "No HOA rules uploaded yet" });
     }
