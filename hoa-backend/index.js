@@ -60,8 +60,12 @@ app.post("/api/upload-rules", upload.single("rules"), async (req, res) => {
     } else {
       rulesText = req.file.buffer.toString("utf8");
     }
-
-    res.json({ ok: true, chars: rulesText.length });
+    
+    res.json({
+      ok: true,
+      chars: rulesText.length,
+      text: rulesText, // ✅ REQUIRED
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Could not read HOA rules :(" });
