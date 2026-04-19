@@ -64,7 +64,7 @@ app.post("/api/upload-rules", upload.single("rules"), async (req, res) => {
     res.json({
       ok: true,
       chars: rulesText.length,
-      text: rulesText, // ✅ REQUIRED
+      text: rulesText,
     });
   } catch (err) {
     console.error(err);
