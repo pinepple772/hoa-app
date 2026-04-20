@@ -40,39 +40,32 @@ app.get("/", (req, res) => {
 
 console.log("UPLOAD ROUTE REGISTERED");
 app.post("/api/upload-rules", upload.single("rules"), async (req, res) => {
-  console.log("UPLOAD ROUTE HIT");
-  console.log("req.file.fieldname:", req.file?.fieldname);
-  console.log("req.file:", req.file);
-  console.log("req.body:", req.body);
-  console.log("MIME:", req.file?.mimetype);
-  console.log(err.response?.data);
-  console.log(res.data);
-
   try {
+    console.log("UPLOAD ROUTE HIT");
+    console.log("FILE:", req.file);
+
     if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
+      return res.status(400).json({ error: "No file received" });
     }
 
+    let rulesText = "";
+
     if (req.file.mimetype === "application/pdf") {
-      try {
-        const parsed = await pdfParse(req.file.buffer);
-        rulesText = parsed.text || "";
-      } catch (err) {
-        console.error("Failed to parse PDF:", err);
-        return res.status(400).json({ error: "Could not read PDF text" });
-      }
+      const parsed = await pdfParse(req.file.buffer);
+      rulesText = parsed.text || "";
     } else {
       rulesText = req.file.buffer.toString("utf8");
     }
-    
-    res.json({
+
+    return res.json({
       ok: true,
       chars: rulesText.length,
       text: rulesText,
     });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Could not read HOA rules :(" });
+    console.error("UPLOAD ERROR:", err);
+    return res.status(500).json({ error: "Upload failed" });
   }
 });
 
