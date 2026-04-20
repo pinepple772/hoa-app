@@ -1,7 +1,6 @@
 console.log("BACKEND FILE LOADED");
 const express = require("express");
 const multer = require("multer");
-const cors = require("cors");
 const pdfParse = require("pdf-parse");
 const vision = require("@google-cloud/vision");
 const { OpenAI } = require("openai");
@@ -12,15 +11,15 @@ const openai = new OpenAI({
 
 const app = express();
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "https://hoa-frontend-beta.vercel.app",
-    ],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3000",
+//       "https://hoa-frontend-beta.vercel.app",
+//     ],
+//     credentials: true,
+//   })
+// );
 
 const upload = multer({ storage: multer.memoryStorage() });
 const visionClient = new vision.ImageAnnotatorClient();
