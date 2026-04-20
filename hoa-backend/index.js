@@ -26,6 +26,17 @@ const upload = multer({ storage: multer.memoryStorage() });
 const visionClient = new vision.ImageAnnotatorClient();
 
 //let rulesText = "";
+const cors = require("cors");
+
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://hoa-frontend-owkbu934z-pinepple772s-projects.vercel.app"
+  ],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+}));
+app.options("*", cors());
 
 app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError && err.code === "LIMIT_UNEXPECTED_FILE") {
