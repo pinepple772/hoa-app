@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/upload-rules", upload.single("rules"), async (req, res) => {
+  console.log("UPLOAD ROUTE HIT");
   console.log("req.file.fieldname:", req.file?.fieldname);
   console.log("req.file:", req.file);
   console.log("req.body:", req.body);
