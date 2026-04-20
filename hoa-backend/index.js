@@ -37,6 +37,7 @@ app.get("/", (req, res) => {
   res.send("HOA backend is running");
 });
 
+console.log("UPLOAD ROUTE REGISTERED");
 app.post("/api/upload-rules", upload.single("rules"), async (req, res) => {
   console.log("UPLOAD ROUTE HIT");
   console.log("req.file.fieldname:", req.file?.fieldname);
