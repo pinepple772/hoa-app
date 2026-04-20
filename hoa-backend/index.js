@@ -141,6 +141,12 @@ app.post("/api/analyze-openai", upload.single("image"), async (req, res) => {
   }
 });
 
+console.log("FILE:", req.file);
+console.log("MIME:", req.file?.mimetype);
+console.log(err.response?.data);
+console.log(res?.data);
+console.log(res.data);
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
